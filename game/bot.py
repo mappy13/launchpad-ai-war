@@ -22,6 +22,7 @@ class Actions(Enum):
     # Rotation
     TurnLeft = 4
     TurnRight = 5
+    TurnAround = 6
 
     # Attacking
     Punch = 6  # Unleash a powerful melee attack
@@ -64,8 +65,8 @@ class Bot:
         self._actor.loop('idle')
         self._actor.setH(90)
 
-        fov = make_fov()
-        fov.reparentTo(self._model)
+        #fov = make_fov()
+        #fov.reparentTo(self._model)
 
     def update(self, tick_number, visible_objects):
         return Actions.DoNothing
@@ -106,6 +107,10 @@ class Bot:
 
         elif self._orders == Actions.TurnLeft:
             new_dir.x += 90
+            self.safe_loop('walk')
+
+        elif self._orders == Actions.TurnAround:
+            new_dir.x += 180
             self.safe_loop('walk')
 
         elif self._orders == Actions.TurnRight:
